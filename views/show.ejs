@@ -1,0 +1,201 @@
+<%- include('partials/header'); -%>
+
+<div class="grid grid-cols-4 mt-8">
+  <sidebar class="col-span-1"> 
+    <div class="text-right flex justify-end">
+      <ul class="text-md mt-6 block" id="menu">
+        <li class="text-gray-700 font-bold bg-gray-200 py-1">
+          <a href="/" class="text-lg px-4 flex justify-end border-r-4 border-red-700">
+            <span>IITG stackoverflow</span>
+            <svg class="w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </a>
+        </li>
+        <li class="py-1">
+          <a href="/users" class="text-lg px-4 flex justify-end border-r-4 border-gray-100" id="getUsers">
+            <span>Users</span>
+            <svg class="w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </a>
+        </li>
+    </div>
+  </sidebar>
+  <main class="container col-span-3 border-l-2 border-gray-500 h-full grid grid-cols-4">
+    <div class="ml-4  col-span-3">
+      <div class="justify-between relative flex-wrap">
+        <div class="text-3xl mb-2">
+          <h1><%=data.title%></h1>
+        </div>
+
+      </div>
+      <h4 class="text-sm text-gray-400">By: <%= data.author.name %></h4>
+      <hr />
+      <p class="m-2"><%-data.body%></p>
+      <% if (owner) { %>
+        <div class="flex text-sm">
+        <a class="m-2 text-blue-400 hover:text-blue-600" href="/posts/<%=data._id%>/edit">edit</a>
+        <form class="m-2" id="delete">
+          <button class="text-red-400 hover:text-red-600" type="submit">delete</button>
+        </form>
+        </div>
+      <% } %>
+
+      <div id="output">
+        <% if (data.answers.length > 0) { %>
+          <h4 class="text-4xl mt-16">Answers</h4>
+        <% } %>
+        <% for( let i = 0; i < data.answers.length; i++ ) { %>
+          <div class="my-4">
+            <div class="flex">
+              <% if (user) { %>
+                <div class="m-4"><a href="/votes/upvote/<%=data._id%>/<%=data.answers[i]._id%>"><svg width="2rem" height="2rem" viewBox="0 0 36 36" fill="none" class=""><path d="M2 26h32L18 10 2 26z" fill="currentColor"></path></svg></a><div class="text-center text-lg"><%=(data.answers)[i].score%></div><a href="/votes/downvote/<%=data._id%>/<%=data.answers[i]._id%>"><svg width="2rem" height="2rem" viewBox="0 0 36 36" fill="none" class=""><path d="M2 10h32L18 26 2 10z" fill="currentColor"></path></svg></a></div>
+              <% } %>
+              <div class="mx-2">
+                <p class="m-2"><%- (data.answers)[i].body %></p>
+                <h6 class="text-sm text-gray-400 mt-2">By: <%= ((data.answers)[i].author).name %></h6>
+              </div>
+            </div>
+
+          </div>
+          <% if (user) { %>
+          <% if (JSON.stringify((data.answers)[i].author._id) === JSON.stringify(user._id)) { %>
+            <div class="flex text-sm items-baseline">
+              <a class="m-2 text-blue-400 hover:text-blue-600" href="/posts/<%=data._id%>/<%=(data.answers)[i]._id%>/edit">edit</a>
+              <form class="dltans m2" method="POST" action="/posts/<%=data._id%>/<%=(data.answers)[i]._id%>/delete">
+                <button class="text-red-400 hover:text-red-600" type="submit">delete</button>
+              </form>
+            </div>
+          <% } %>
+          <% } %>
+          <hr>
+        <% } %>
+        <% if (user) { %>
+        <div class="py-12">
+          <div class="max-w-7xl">
+              <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
+                  <div class="p-6 bg-gray-100 border-gray-200">
+                      <form id="addAns" method="POST" action="action.php">
+                          <div class="mb-8">
+                              <label class="text-xl text-gray-600">Your Answer <span class="text-red-500">*</span></label></br>
+                              <textarea cols="80" id="editor1" name="editor1" rows="10" data-sample-short></textarea>
+                          </div>
+
+                          <div class="flex p-1">
+                              <button role="submit" class="p-2 rounded bg-blue-500 text-white hover:bg-blue-400" required>Submit</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+      <script src="https://cdn.ckeditor.com/4.16.1/standard-all/ckeditor.js"></script>
+
+      <script>
+        CKEDITOR.replace('editor1', {
+          // Define the toolbar groups as it is a more accessible solution.
+          toolbarGroups: [{
+              "name": "basicstyles",
+              "groups": ["basicstyles"]
+            },
+            {
+              "name": "links",
+              "groups": ["links"]
+            },
+            {
+              "name": "paragraph",
+              "groups": ["list", "blocks"]
+            },
+            {
+              "name": "document",
+              "groups": ["mode"]
+            },
+            {
+              "name": "insert",
+              "groups": ["insert"]
+            },
+            {
+              "name": "styles",
+              "groups": ["styles"]
+            },
+            {
+              "name": "about",
+              "groups": ["about"]
+            }
+          ],
+          // Remove the redundant buttons from toolbar groups defined above.
+          removeButtons: 'Underline,Strike,Anchor,Styles,Specialchar'
+        });
+      </script>
+        <% } %>
+      </div>
+    </div>
+    <div class="absolute right-16">
+      <a class="bg-blue-500 text-white rounded p-2 hover:bg-blue-600" href="/addpost" id="addPosts">Ask Question</a>
+    </div>
+  </main>
+</div>
+
+
+<%- include('partials/footer'); -%>
+
+<script>
+  "<% if (owner) { %>"
+    const btn = document.getElementById("delete");
+
+    btn.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        await fetch("/posts/" + "<%=data._id%>", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        });
+        location.assign("/");
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  " <% } %>"
+
+  "<% if (user) { %>"
+    const form = document.getElementById("addAns");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const body = CKEDITOR.instances["editor1"].getData();
+      const author = "<%=user._id%>";
+      console.log(author);
+
+      try {
+        const res = await fetch("/posts/<%=data._id%>", {
+          method: "PUT",
+          body: JSON.stringify({ author, body }),
+          headers: { "Content-Type": "application/json" },
+        });
+        location.assign("/posts/" + "<%=data._id%>");
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    const dlt = document.getElementsByClassName("dltans");
+
+    for(let i = 0; i < dlt.length; i++) {
+      dlt[i].addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          location.assign("/posts/" + "<%=data._id%>");
+          const res = await fetch(dlt[i].action, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+
+
+      });
+    }
+  "<% } %>"
+
+
+</script>

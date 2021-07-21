@@ -1,0 +1,30 @@
+<div class="relative" style="height: full; margin-top: 20px; background: rgb(49, 49, 49)">
+<div class="w-full h-full" style="text-align: center; padding-top: 60px; padding-bottom: 120px; color: #aaa">
+  Created and maintained by Ankush
+</div>
+</div>
+<script>
+  const search = document.getElementById("search");
+
+  search.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const query = search.query.value;
+
+    try {
+      const res = await fetch(search.action, {
+        method: search.method,
+        body: JSON.stringify({ query }),
+        headers: { "Content-Type": "application/json" },
+      });
+      query.replace(/ /g, "%20");
+      location.assign("/search/" + query);
+
+    } catch (err) {
+      console.log(err);
+    }
+  })
+</script>
+
+</body>
+</html>

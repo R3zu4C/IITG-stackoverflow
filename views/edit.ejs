@@ -1,0 +1,184 @@
+<%- include('partials/header') -%>
+
+<div class="grid grid-cols-4 mt-8">
+  <sidebar class="col-span-1"> 
+    <div class="text-right flex justify-end">
+      <ul class="text-md mt-6 block" id="menu">
+        <li class="text-gray-700 font-bold bg-gray-200 py-1">
+          <a href="/" class="text-lg px-4 flex justify-end border-r-4 border-red-700">
+            <span>IITG stackoverflow</span>
+            <svg class="w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </a>
+        </li>
+        <li class="py-1">
+          <a href="/users" class="text-lg px-4 flex justify-end border-r-4 border-gray-100" id="getUsers">
+            <span>Users</span>
+            <svg class="w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </a>
+        </li>
+    </div>
+  </sidebar>
+  <main class="container col-span-3 border-l-2 border-gray-500 h-full">
+  <div class="m-16">
+  <h2 class="text-4xl mb-4">Edit Quesetion</h2>
+    <div class="py-12">
+      <div class="max-w-7xl">
+          <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
+              <div class="p-6 bg-gray-100 border-gray-200">
+                  <form id="updatePost" method="POST" action="action.php">
+                      <div class="mb-4">
+                          <label class="text-xl text-gray-600">Title <span class="text-red-500">*</span></label></br>
+                          <input id="postTitle" type="text" class="border-2 border-gray-300 p-2 w-full" name="title" value="<%= data.title %>" required>
+                      </div>
+                      <div id="titleError" style="color: rgb(255, 0, 0)"></div>
+                      <div class="mb-8">
+                        <label class="text-xl text-gray-600">Body <span class="text-red-500">*</span></label></br>
+                        <textarea cols="80" id="editor1" name="editor1" rows="10" data-sample-short><%= data.body %></textarea>
+                      </div>
+                      <div id="bodyError" style="color: rgb(255, 0, 0)"></div>
+                      <div class="flex p-1">
+                          <button role="submit" class="p-2 rounded bg-blue-500 text-white hover:bg-blue-400" required>Submit</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </main>
+</div>
+<script src="https://cdn.ckeditor.com/4.16.1/standard-all/ckeditor.js"></script>
+
+<script>
+  CKEDITOR.replace('editor1', {
+    // Define the toolbar groups as it is a more accessible solution.
+    toolbarGroups: [{
+        "name": "basicstyles",
+        "groups": ["basicstyles"]
+      },
+      {
+        "name": "links",
+        "groups": ["links"]
+      },
+      {
+        "name": "paragraph",
+        "groups": ["list", "blocks"]
+      },
+      {
+        "name": "document",
+        "groups": ["mode"]
+      },
+      {
+        "name": "insert",
+        "groups": ["insert"]
+      },
+      {
+        "name": "styles",
+        "groups": ["styles"]
+      },
+      {
+        "name": "about",
+        "groups": ["about"]
+      }
+    ],
+    // Remove the redundant buttons from toolbar groups defined above.
+    removeButtons: 'Underline,Strike,Anchor,Styles,Specialchar'
+  });
+</script>
+</div>
+
+
+<!-- <div class="container mt-4">
+  <h2 class="display-4 mb-4">Edit Post</h2>
+
+  <form id="updatePost" action="/posts/<%=data._id%>">
+    <div class="input-group flex-nowrap mb-4">
+      <span class="input-group-text">Title</span>
+      <input
+        type="text"
+        name="title"
+        class="form-control"
+        id="title"
+        placeholder="Title"
+        aria-describedby="addon-wrapping"
+        value="<%= data.title %>"
+      />
+      <span class="input-group-text">@</span>
+      <input
+        type="text"
+        name="author"
+        disabled
+        class="form-control text-muted"
+        id="userName"
+        placeholder="Username"
+        value=<%= user.name %>
+        aria-describedby="addon-wrapping"
+      />
+    </div>
+    <div class="input-group mb-4">
+      <span class="input-group-text">Body</span>
+      <textarea
+        class="form-control"
+        name="body"
+        id="body"
+        aria-label="With textarea"
+        style="height: 300px"
+        placeholder="Body"
+      ><%= data.body %></textarea>
+    </div>
+    <div id="bodyError" style="color: rgb(255, 0, 0)"></div>
+    <div class="input-group flex-nowrap">
+      <button
+        type="submit"
+        style="
+          margin-top: 30px;
+          border-radius: 36px;
+          background: #aed5f1;
+          border: 0;
+          font-weight: 700;
+          font-size: 0.8em;
+          display: block;
+          padding: 10px 16px;
+          letter-spacing: 2px;
+        "
+      >
+        SUBMIT
+      </button>
+    </div>
+  </form>
+</div> -->
+
+<%- include('partials/footer') -%>
+
+<script>
+
+  const form = document.getElementById("updatePost");
+  const bodyError = document.getElementById("bodyError");
+
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = form.title.value;
+    const body = CKEDITOR.instances["editor1"].getData();
+
+    bodyError.textContent = "";
+
+
+    try {
+      const res = await fetch("/posts/" + "<%=data._id%>" + "/edit", {
+        method: 'PUT',
+        body: JSON.stringify({ title, body }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.errors) {
+        bodyError.textContent = data.errors.body;
+      }
+      if(data.post) location.assign("/posts/" + "<%=data._id%>");
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
+

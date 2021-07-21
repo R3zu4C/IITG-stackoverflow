@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    /> -->
+    <link href="/styles.css" rel="stylesheet" />
+    <title>Blog</title>
+  </head>
+  <body class="bg-gray-100 font-body text-gray-700">
+    <nav class="text-lg shadow-md" style="background-color: rgb(32, 34, 36);">
+      <div class="flex items-baseline justify-between py-3 text-gray-400">
+        <ul class="flex items-baseline mx-4">
+          <li>
+            <a class="font-bold text-3xl mr-4 text-transparent hover:text-transparent bg-clip-text bg-gradient-to-r hover:bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 transition duration-500 ease-linear" href="/">IITG stackoverflow</a>
+          </li>
+          <li>
+            <a class="mx-2" href="/about" id="about">About</a>
+          </li>
+          <li class="ml-56">
+            <form class="mx-2 text-gray-600 w-96 relative" style="width: 50rem;" id="search" action="/search" method="POST">
+              <input class="border-2 border-gray-300 bg-white w-full h-10 px-2 pr-16 rounded-lg text-sm focus:shadow-inner focus:outline-none"
+                type="search" name="query" placeholder="Search">
+              <button type="submit" class="absolute right-3 top-3">
+                <svg class="text-gray-400 h-4 w-4 fill-current hover:text-gray-700" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                  viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+                  width="512px" height="512px">
+                  <path
+                    d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                </svg>
+              </button>
+            </form>
+          </li>
+        </ul>
+        
+        <ul class="flex items-baseline mx-4">
+          <% if (user) { %>
+          <li class="mx-3">
+            <span > Welcome,</span><%= user.name %> </a>
+          </li>
+          <li>
+            <a class="mx-1 shadow-inner border-2 border-transparent p-2 rounded-full text-yellow-300 border-yellow-300 hover:bg-yellow-300 hover:text-black transition ease-out duration-500" href="/logout" id="logout">Log Out</a>
+          </li>
+          <% } else { %>
+          <li>
+            <a id="login" class="mx-1 shadow-inner border-2 border-transparent p-2 rounded-full text-yellow-300 border-yellow-300 hover:bg-yellow-300 hover:text-black transition ease-out duration-500" href="/login" id="login">Login</a>
+          </li>
+          <li>
+            <a id="signup" class="mx-1 shadow-inner border-2 border-transparent p-2 rounded-full text-yellow-300 border-yellow-300 hover:bg-yellow-300 hover:text-black transition ease-out duration-500" href="/signup" id="signup">Sign Up</a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>

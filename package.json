@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.0",
+    "mongoose-fuzzy-searching": "^2.0.2",
+    "multer": "^1.4.2",
+    "validator": "^13.6.0"
+  },
+  "scripts": {
+    "build:css": "tailwindcss build src/tailwind.css -o public/styles.css"
+  },
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "R3zu4C",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.5",
+    "tailwindcss": "^2.2.4"
+  }
+}

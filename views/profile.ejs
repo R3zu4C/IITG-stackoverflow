@@ -1,0 +1,138 @@
+<%- include('partials/header'); -%>
+
+<div class="container mt-lg-4">
+  <h2 class="display-4 m-4">Profile Section</h2>
+  <form
+    id="profileform"
+    style="
+      width: 500px;
+      margin: 0 auto;
+      padding: 30px;
+      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background: white;
+    "
+    action="/profile"
+  >
+    <h2>Edit your Profile</h2>
+    <label
+      for="name"
+      style="display: block; margin: 20px 0 10px"
+      class="text-muted"
+      >Display Name</label
+    >
+    <input
+      type="text"
+      style="
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1em;
+        width: 100%;
+      "
+      name="name"
+      value=<%=user.name%>
+    />
+    <div id="nameError" style="color: rgb(255, 0, 0)"></div>
+    <label
+      for="email"
+      style="display: block; margin: 20px 0 10px"
+      class="text-muted"
+      >Email</label
+    >
+    <input
+      type="email"
+      style="
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1em;
+        width: 100%;
+      "
+      name="email"
+      value=<%=user.email%>
+    />
+    <div id="emailError" style="color: rgb(255, 0, 0)"></div>
+    <label
+      for="password"
+      style="display: block; margin: 20px 0 10px"
+      class="text-muted"
+      >Old Password</label
+    >
+    <input
+      type="password"
+      style="
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1em;
+        width: 100%;
+      "
+      name="Oldpassword"
+    />
+    <label
+      for="password"
+      style="display: block; margin: 20px 0 10px"
+      class="text-muted"
+      >New Password</label
+    >
+    <input
+      type="password"
+      style="
+        padding: 10px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 1em;
+        width: 100%;
+      "
+      name="Newpassword"
+    />
+    <div id="passwordError" style="color: rgb(255, 0, 0)"></div>
+    <button
+      type="submit"
+      style="
+        margin-top: 30px;
+        border-radius: 36px;
+        background: #aed5f1;
+        border: 0;
+        font-weight: 700;
+        font-size: 0.8em;
+        display: block;
+        padding: 10px 16px;
+        letter-spacing: 2px;
+      "
+    >
+      SUBMIT
+    </button>
+  </form>
+</div>
+
+<%- include('partials/footer'); -%>
+
+<script>
+  const form = document.getElementById("profileform");
+
+  form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const name = form.name.value;
+    const email = form.email.value;
+    const Oldpassword = form.Oldpassword.value;
+    const Newpassword = form.Newpassword.value;
+
+    try {
+      const res = await fetch('/profile', {
+        method: 'PUT',
+        body: JSON.stringify({ name, email, Oldpassword, Newpassword }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.user) {
+        location.assign("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
